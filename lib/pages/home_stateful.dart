@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http_project/models/http_stateful.dart';
 
 class HomeStateful extends StatefulWidget {
   @override
@@ -6,6 +7,7 @@ class HomeStateful extends StatefulWidget {
 }
 
 class _HomeStatefulState extends State<HomeStateful> {
+  HttpStateful dataResponse = HttpStateful();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +22,9 @@ class _HomeStatefulState extends State<HomeStateful> {
           children: [
             FittedBox(
               child: Text(
-                "ID : Belum ada data",
+                (dataResponse.id == null)
+                    ? "ID : Belum ada data"
+                    : "ID : ${dataResponse.id}",
                 style: TextStyle(fontSize: 20),
               ),
             ),
@@ -28,7 +32,9 @@ class _HomeStatefulState extends State<HomeStateful> {
             FittedBox(child: Text("Name : ", style: TextStyle(fontSize: 20))),
             FittedBox(
               child: Text(
-                "Belum ada data",
+                (dataResponse.name == null)
+                    ? "ID : Belum ada data"
+                    : "ID : ${dataResponse.name}",
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -38,7 +44,9 @@ class _HomeStatefulState extends State<HomeStateful> {
             FittedBox(child: Text("Job : ", style: TextStyle(fontSize: 20))),
             FittedBox(
               child: Text(
-                "Belum ada data",
+                (dataResponse.job == null)
+                    ? "ID : Belum ada data"
+                    : "ID : ${dataResponse.job}",
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -49,7 +57,9 @@ class _HomeStatefulState extends State<HomeStateful> {
                 child: Text("Created At : ", style: TextStyle(fontSize: 20))),
             FittedBox(
               child: Text(
-                "Belum ada data",
+                (dataResponse.createAt == null)
+                    ? "ID : Belum ada data"
+                    : "ID : ${dataResponse.createAt}",
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -57,7 +67,17 @@ class _HomeStatefulState extends State<HomeStateful> {
             ),
             SizedBox(height: 100),
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                HttpStateful.connectAPI("Irwan Sanjaya", "Flutter Developer")
+                    .then(
+                  (value) {
+                    print(value.name);
+                    setState(() {
+                      dataResponse = value;
+                    });
+                  },
+                );
+              },
               child: Text(
                 "POST DATA",
                 style: TextStyle(
